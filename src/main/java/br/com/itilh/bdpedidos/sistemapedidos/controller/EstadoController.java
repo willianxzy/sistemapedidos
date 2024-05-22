@@ -18,11 +18,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class EstadoController {
 
     private final EstadoRepository repositorio;
+    
     public EstadoController(EstadoRepository repositorio){
         this.repositorio = repositorio;
     }
-
-
 
     @GetMapping("/estados")
     public List<Estado> getTodos() {

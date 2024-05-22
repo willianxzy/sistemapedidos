@@ -26,8 +26,8 @@ import lombok.ToString;
 public class Estado {
     
     @Id
-    @SequenceGenerator(name = "seqEstados", sequenceName = "tb_estados_id_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "estado_id_seq")
+    @SequenceGenerator(name = "estados_id_seq", sequenceName = "tb_estados_id_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "estados_id_seq")
     private BigInteger id;
 
     @Column(name="tx_nome")
