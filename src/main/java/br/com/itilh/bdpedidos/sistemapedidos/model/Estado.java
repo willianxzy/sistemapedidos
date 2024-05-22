@@ -30,7 +30,7 @@ public class Estado {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "estados_id_seq")
     private BigInteger id;
 
-    @Column(name="tx_nome")
+    @Column(name= "tx_nome")
     private String nome;
     
 }
