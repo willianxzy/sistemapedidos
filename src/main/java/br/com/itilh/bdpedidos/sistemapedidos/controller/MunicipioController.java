@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 
 
-
-
 @RestController
 public class MunicipioController {
 
@@ -32,6 +30,16 @@ public class MunicipioController {
     @GetMapping("/municipios")
     public List<Municipio> getMunicipios() {
         return (List<Municipio>) repositorio.findAll();
+    }
+
+    @GetMapping("/municipios/estado-id/{id}")
+    public List<Municipio> getMunicipiosPorEstadoId(@PathVariable BigInteger id) {
+        return (List<Municipio>) repositorio.findByEstadoId(id);
+    }
+
+    @GetMapping("/municipios/estado-nome/{nome}")
+    public List<Municipio> getMunicipiosPorEstadoNome(@PathVariable String nome) {
+        return (List<Municipio>) repositorio.findByEstadoNomeIgnoreCase(nome);
     }
 
     @GetMapping("/municipio/{id}")

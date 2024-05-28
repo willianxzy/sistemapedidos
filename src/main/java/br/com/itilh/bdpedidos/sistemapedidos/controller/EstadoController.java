@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.itilh.bdpedidos.sistemapedidos.model.Estado;
 import br.com.itilh.bdpedidos.sistemapedidos.repository.EstadoRepository;
+import br.com.itilh.bdpedidos.sistemapedidos.util.ModoBusca;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 
@@ -35,6 +38,21 @@ public class EstadoController {
     public List<Estado> getTodos() {
         return (List<Estado>) repositorio.findAll();
     }
+
+    @GetMapping("/estados/nome/{nome}")
+    public List<Estado> getEstadosPorNome(@PathVariable String nome,
+    @RequestParam(required = true) ModoBusca modoBusca) {
+        if (modoBusca.equals(ModoBusca.EXATO)) {
+            return repositorio.findByNome(nome);
+        }else if (modoBusca.equals(ModoBusca.INICIADO)){
+            return repositorio.findByNomeStartingWithIgnoreCase(nome);
+        }else if (modoBusca.equals(ModoBusca.FINALIZADO)) {
+            return repositorio.findByNomeEndingWithIgnoreCase(nome);
+        }else{
+            return repositorio.findByNomeContainingIgnoreCase(nome);
+        }
+    };
+    
 
     // get para exibir somente um Estado presente dentro do bd
     @GetMapping("/estado/{id}")
