@@ -73,7 +73,7 @@ public class MunicipioController {
              repositorio.deleteById(id);
              return "Excluído";
         }catch (Exception ex){
-            throw new Exception("Não foi possível alterar o município." + ex.getMessage());
+            throw new Exception("Não foi possível deletar o id informado." + ex.getMessage());
         }
     }
 }
