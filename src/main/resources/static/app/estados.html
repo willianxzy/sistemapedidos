@@ -6,28 +6,89 @@
     <title>Lista de Estados</title>
 </head>
 <body>
-    <div>
-        <h1>Sistema de Pedidos</h1>
+        <h1>Listagem de Estados</h1>
+        <form>
+            <label> ID </label>
+            <input type="text" id="tx_id"/>
+            <br>
+            <label> NOME: </label>
+            <input type="text" id="tx_nome"/>
+            <br>
+            <button type="button" onclick="carregar()">Listar</button>
+            <button type="button" onclick="adicionarEstado()">Adicionar</button>
+        </form>
+        <table border="1" id="listagem"></table>
     </div>
 </body>
 <script>
-    var xhttp = new XMLHttpRequest();
 
-    xhttp.onreadystatechange = function() {
-        if(this.readyState == 4 && this.status == 200)
-        //console.log(this.responseText);
-        var dados = JSON.parse(this.responseText);
-    document.write("<table border='1'>");
-   // document.write("<tr> <th> ID </th> <th> Nome </th> </tr>");
-    for (var estado of dados) {
-        document.write("<tr> <td>" + estado.id + "</td> <td>" + estado.nome + "</td> </tr>");
+    function alterarEstado(){   
+       console.log("Alterar estado!");
+       var xhttp = new XMLHttpRequest();
+       xhttp.onreadystatechange = function(){
+          if(this.readyState == 4 && this.status==200){
+                arguments("Estado alterado com Sucesso!")
+                carregar();
+          }
+       }
+       xhttp.open("PUT", "/estado/" + document.getElementById("tx_id").value);
+       xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+       xhttp.send();
     }
-    console.log(dados);
-};
 
+    function adicionarEstado() {
+        console.log("Criar novo Estado!")
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            id (this.readyState == 4 && this.status == 200);{
+                arguments("Estado adicionado com Sucesso");
+                carregar();
+            };
+        }
+        xhttp.open("POST", "/estado");
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.send(JSON.stringify({id: null, nome: document.getElementById("tx_nome").value}));
+    }
 
-xhttp.open("GET", "/estados");
-xhttp.send();
+    function excluirEstado(id_estado){
+       console.log("Excluir estado!");
+       var xhttp = new XMLHttpRequest();
+       xhttp.onreadystatechange = function(){
+          if(this.readyState == 4 && this.status==200){
+                arguments("Estado Excluído com Sucesso!");
+                carregar();
+          };
+       };
+       xhttp.open("DELETE", "/estado/" + id_estado);
+       xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+       xhttp.send();
+    }
+
+    function preencher(id_estado, nome_estado) {
+        document.getElementById("tx_id").value = id_estado;
+        document.getElementById("tx_nome").value = nome_estado;
+    }
+
+    function carregar(){
+        var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function() {
+                if(this.readyState == 4 && this.status == 200)
+                var dados = JSON.parse(this.responseText);
+                var conteudo = ("<tr> <th> ID </th> <th> Nome </th> <th> Ações </th> </tr>");
+                for (var estado of dados) {
+        
+                conteudo += "<tr> <td>" + estado.id + " </td> <td>"+ estado.nome + "</td>";
+                conteudo += "<td> <button type='button' onclick=preencher('"+ estado.id +"','"+ estado.nome +"')>Alterar</button>  ";    
+                conteudo += "<button type='button' onclick='excluir("+ estado.id +")'>Excluir</button></td></tr>";
+            }
+            document.getElementById("listagem").innerHTML = conteudo;
+            console.log(this.responseText);
+            console.log(dados);
+        };
+        xhttp.open("GET", "/estados");
+        xhttp.send();
+    };
 </script>
 
 </html>
