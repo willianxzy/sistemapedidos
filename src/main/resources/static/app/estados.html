@@ -6,7 +6,9 @@
     <title>Lista de Estados</title>
 </head>
 <body>
-        <h1>Listagem de Estados</h1>
+        <h1>Sistema de Pedidos</h1>
+        <br>
+        <h3>Listagem de Estados</h3>
         <form>
             <label> ID </label>
             <input type="text" id="tx_id"/>
@@ -17,12 +19,18 @@
             <button type="button" onclick="carregar()">Listar</button>
             <button type="button" onclick="alterar()">Alterar</button>
             <button type="button" onclick="adicionarEstado()">Adicionar</button>
+            <button type="button" onclick="limpar()">Limpar</button>
 
         </form>
         <table border="1" id="listagem"></table>
     </div>
 </body>
 <script>
+
+    function limpar(){
+        document.getElementById("tx_id").value = "";
+        document.getElementById("tx_nome").value = "";
+    }
 
     function alterar(){
        console.log("Alterar estado!!!!");
@@ -83,13 +91,14 @@
                 conteudo += "<button type='button' onclick='excluirEstado("+ estado.id +")'>Excluir</button></td></tr>";
             }
             document.getElementById("listagem").innerHTML = conteudo;
+            limpar();
             console.log(this.responseText);
             console.log(dados);
         };
         xhttp.open("GET", "/estados");
         xhttp.send();
     };
-    
+
 </script>
 
 </html>
