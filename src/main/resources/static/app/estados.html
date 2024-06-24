@@ -10,14 +10,14 @@
         <br>
         <h3>Listagem de Estados</h3>
         <form>
-            <label> ID </label>
+            <label> ID: </label>
             <input type="text" id="tx_id"/>
             <br>
             <label> NOME: </label>
             <input type="text" id="tx_nome"/>
             <br>
             <button type="button" onclick="carregar()">Listar</button>
-            <button type="button" onclick="alterar()">Alterar</button>
+            <button type="button" onclick="alterarEstado()">Alterar</button>
             <button type="button" onclick="adicionarEstado()">Adicionar</button>
             <button type="button" onclick="limpar()">Limpar</button>
 
@@ -32,7 +32,7 @@
         document.getElementById("tx_nome").value = "";
     }
 
-    function alterar(){
+    function alterarEstado(){
        console.log("Alterar estado!!!!");
        var xhttp = new XMLHttpRequest();
        xhttp.onreadystatechange = function(){
@@ -65,7 +65,8 @@
           if(this.readyState == 4 && this.status==200){
                 alert("Estado criado com sucesso");
                 carregar();
-          }}
+            }
+        }
        xhttp.open("POST","/estado");
        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
        xhttp.send(JSON.stringify({id:null, nome: document.getElementById("tx_nome").value}));
@@ -87,7 +88,7 @@
                 for (var estado of dados) {
         
                 conteudo += "<tr> <td>" + estado.id + " </td> <td>"+ estado.nome + "</td>";
-                conteudo += "<td> <button type='button' onclick=preencher('"+ estado.id +"','"+ encodeURI(estado.nome) +"')>Alterar</button>  ";    
+                conteudo += "<td> <button type='button' onclick=preencher('"+ estado.id +"','"+ encodeURI(estado.nome) +"')>Alterar</button>";    
                 conteudo += "<button type='button' onclick='excluirEstado("+ estado.id +")'>Excluir</button></td></tr>";
             }
             document.getElementById("listagem").innerHTML = conteudo;
@@ -100,5 +101,4 @@
     };
 
 </script>
-
 </html>
